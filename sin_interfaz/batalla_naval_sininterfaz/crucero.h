@@ -3,7 +3,7 @@
 
 #include "barco.h"
 
-class crucero : protected barco
+class crucero : public barco
 {
 public:
     crucero();
