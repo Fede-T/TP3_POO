@@ -8,7 +8,7 @@ class portaaviones : public barco
 public:
     portaaviones();
     portaaviones(int x, int y, char orientacion, int tamanio);
-    bool disparar(int x, int y);
+    bool registrarHit(int x, int y);
     void actualizarEstado();
     ~portaaviones();
 };

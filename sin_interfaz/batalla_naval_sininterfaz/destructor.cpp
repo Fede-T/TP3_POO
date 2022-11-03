@@ -10,7 +10,7 @@ destructor::destructor(int x, int y, char orientacion, int tamanio):barco(x, y, 
 
 }
 
-bool destructor::disparar(int x, int y)
+bool destructor::registrarHit(int x, int y)
 {
     if(this->getOrientacion() == 'H'){
         if(y != this->getPosY()){

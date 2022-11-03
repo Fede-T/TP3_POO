@@ -8,7 +8,7 @@ class submarino : public barco
 public:
     submarino();
     submarino(int x, int y, char orientacion, int tamanio);
-    bool disparar(int x, int y);
+    bool registrarHit(int x, int y);
     void verificar();
     void actualizarEstado();
     ~submarino();

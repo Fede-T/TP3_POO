@@ -10,7 +10,7 @@ submarino::submarino(int x, int y, char orientacion, int tamanio):barco(x, y, or
 
 }
 
-bool submarino::disparar(int x, int y)
+bool submarino::registrarHit(int x, int y)
 {
     if(this->getOrientacion() == 'H'){
         if(y != this->getPosY()){

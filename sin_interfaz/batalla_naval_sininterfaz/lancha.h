@@ -8,7 +8,7 @@ class lancha : public barco
 public:
     lancha();
     lancha(int x, int y, char orientacion, int tamanio);
-    bool disparar(int x, int y);
+    bool registrarHit(int x, int y);
     void moverse(char mov);
     void actualizarEstado();
     ~lancha();

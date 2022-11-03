@@ -10,7 +10,7 @@ lancha::lancha(int x, int y, char orientacion, int tamanio):barco(x, y, orientac
 
 }
 
-bool lancha::disparar(int x, int y)
+bool lancha::registrarHit(int x, int y)
 {
     if(this->getOrientacion() == 'H'){
         if(y != this->getPosY()){

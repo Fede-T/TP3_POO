@@ -10,7 +10,7 @@ portaaviones::portaaviones(int x, int y, char orientacion, int tamanio):barco(x,
 
 }
 
-bool portaaviones::disparar(int x, int y)
+bool portaaviones::registrarHit(int x, int y)
 {
     if(this->getOrientacion() == 'H'){
         if(y != this->getPosY()){

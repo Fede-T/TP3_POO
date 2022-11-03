@@ -17,7 +17,7 @@ protected:
 public:
     barco();
     barco(int x, int y, char orientacion, int tam);
-    virtual bool disparar(int x, int y) = 0;
+    virtual bool registrarHit(int x, int y) = 0;
     virtual void actualizarEstado() = 0;
     ~barco();
     int getPosX() const;

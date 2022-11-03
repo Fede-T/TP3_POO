@@ -10,7 +10,7 @@ crucero::crucero(int x, int y, char orientacion, int tamanio):barco(x, y, orient
 
 }
 
-bool crucero::disparar(int x, int y)
+bool crucero::registrarHit(int x, int y)
 {
     if(this->getOrientacion() == 'H'){
         if(y != this->getPosY()){
