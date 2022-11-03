@@ -10,7 +10,8 @@ SOURCES += \
         lancha.cpp \
         main.cpp \
         portaaviones.cpp \
-        submarino.cpp
+        submarino.cpp \
+        tablero.cpp
 
 HEADERS += \
     barco.h \
@@ -18,4 +19,5 @@ HEADERS += \
     destructor.h \
     lancha.h \
     portaaviones.h \
-    submarino.h
+    submarino.h \
+    tablero.h
