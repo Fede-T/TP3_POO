@@ -70,29 +70,33 @@ bool tablero::verificarPos(int tipo, int x, int y, char orie){
 
 void tablero::colocarBarco(int tipo, int x, int y, char orientacion)
 {
+    int tam;
+    char o = orientacion;
     switch (tipo) {
     case 0:
         this->barcos.push_back(new portaaviones(x, y, orientacion, 5));
+        tam = 5;
         break;
     case 1:
         this->barcos.push_back(new destructor(x, y, orientacion, 4));
+        tam = 4;
         break;
     case 2:
         this->barcos.push_back((new submarino(x, y, orientacion, 3)));
+        tam = 3;
         break;
     case 3:
         this->barcos.push_back(new crucero(x, y, orientacion, 3));
+        tam = 3;
         break;
     case 4:
         this->barcos.push_back(new lancha(x, y, orientacion, 1));
+        tam = 1;
         break;
     default:
         break;
     }
     this->cantBarcos[tipo]++;
-
-    int tam = this->barcos[this->barcos.size()]->getTamanio();
-    char o = this->barcos[this->barcos.size()]->getOrientacion();
 
     if(o == 'H'){
         for(int i = 0; i < tam; i++){
