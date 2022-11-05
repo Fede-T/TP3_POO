@@ -21,6 +21,7 @@ private:
 public:
     batallaNaval(int filas, int columnas, bool j1_es_ia, bool j2_es_ia);
     void definirCantBarcos(int port, int dest, int subm, int cruc, int lanc);
+
 };
 
 #endif // BATALLANAVAL_H
