@@ -30,6 +30,8 @@ public:
     void setTamanio(int newTamanio);
     bool getHundido() const;
     void setHundido(bool newHundido);
+    const vector<bool> &getHits() const;
+    void setHits(const vector<bool> &newHits);
 };
 
 #endif // BARCO_H

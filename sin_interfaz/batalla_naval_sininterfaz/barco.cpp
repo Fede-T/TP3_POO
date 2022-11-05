@@ -1,5 +1,15 @@
 #include "barco.h"
 
+const vector<bool> &barco::getHits() const
+{
+    return hits;
+}
+
+void barco::setHits(const vector<bool> &newHits)
+{
+    hits = newHits;
+}
+
 barco::barco()
 {
 

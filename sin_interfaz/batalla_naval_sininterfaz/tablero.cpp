@@ -21,7 +21,7 @@ tablero::tablero(int filas, int columnas)
 void tablero::actualizarRadar(int x, int y, bool golpe)
 {
     if(golpe == true){
-        this->mapa[x][y] = 'X';
+        this->mapa[x][y] = 'h';
     }else{
         this->mapa[x][y] = 'A';
     }
@@ -98,21 +98,56 @@ void tablero::colocarBarco(int tipo, int x, int y, char orientacion)
     }
     this->cantBarcos[tipo]++;
 
-    if(o == 'H'){
-        for(int i = 0; i < tam; i++){
-            this->mapa[x][y+i] = 'B';
+    if(tipo == 4){
+        if(orientacion == 'H'){
+            this->mapa[x][y] = 'L';
+        }else{
+            this->mapa[x][y] = 'l';
         }
     }else{
-        for(int i = 0; i < tam; i++){
-            this->mapa[x+i][y] = 'B';
+        if(orientacion == 'H'){
+            this->mapa[x][y] = 'C';
+            for(int i = 1; i < tam-1; i++){
+                this->mapa[x][y+i] = 'B';
+            }
+            this->mapa[x][y+tam-1] = 'F';
+        }else{
+            this->mapa[x][y] = 'U';
+            for(int i = 1; i < tam-1; i++){
+                this->mapa[x+i][y] = 'b';
+            }
+            this->mapa[x+tam-1][y] = 'D';
         }
     }
 
 }
 
+void actualizarOceano(char** map, int x, int y){
+    char a;
+    switch(map[x][y]){
+    case '-': a = 'A'; break;
+    case 'B': a = 'X'; break;
+    case 'b': a = 'x'; break;
+    case 'C': a = 'c'; break;
+    case 'F': a = 'f'; break;
+    case 'U': a = 'u'; break;
+    case 'D': a = 'd'; break;
+    case 'L': a = 'G'; break;
+    case 'l': a = 'g'; break;
+    }
+    map[x][y] = a;
+}
+
 bool tablero::recibirDisparo(int x, int y)
 {
-
+    for(int i = 0; i < this->barcos.size(); i++){
+        if(this->barcos[i]->registrarHit(x, y) == true){
+            actualizarOceano(this->mapa, x, y);
+            return true;
+        }
+    }
+    actualizarOceano(this->mapa, x, y);
+    return false;
 }
 
 void tablero::escTablero()
