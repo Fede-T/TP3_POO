@@ -2,7 +2,12 @@
 #include <iostream>
 using namespace std;
 
-tablero::tablero(int filas, int columnas)
+tablero::tablero()
+{
+
+}
+
+void tablero::inicializarTablero(int filas, int columnas)
 {
     this->filas = filas;
     this->columnas = columnas;
@@ -16,6 +21,11 @@ tablero::tablero(int filas, int columnas)
             this->mapa[i][j] = '-';
         }
     }
+}
+
+tablero::tablero(int filas, int columnas)
+{
+    this->inicializarTablero(filas, columnas);
 }
 
 void tablero::actualizarRadar(int x, int y, bool golpe)
@@ -71,7 +81,6 @@ bool tablero::verificarPos(int tipo, int x, int y, char orie){
 void tablero::colocarBarco(int tipo, int x, int y, char orientacion)
 {
     int tam;
-    char o = orientacion;
     switch (tipo) {
     case 0:
         this->barcos.push_back(new portaaviones(x, y, orientacion, 5));
@@ -96,7 +105,6 @@ void tablero::colocarBarco(int tipo, int x, int y, char orientacion)
     default:
         break;
     }
-    this->cantBarcos[tipo]++;
 
     if(tipo == 4){
         if(orientacion == 'H'){

@@ -5,6 +5,7 @@ CONFIG -= qt
 
 SOURCES += \
         barco.cpp \
+        batallanaval.cpp \
         crucero.cpp \
         destructor.cpp \
         lancha.cpp \
@@ -15,6 +16,7 @@ SOURCES += \
 
 HEADERS += \
     barco.h \
+    batallanaval.h \
     crucero.h \
     destructor.h \
     lancha.h \

@@ -16,9 +16,10 @@ private:
     int filas;
     int columnas;
 protected:
-    int cantBarcos[5]={0,0,0,0,0};
     vector <barco*> barcos;
 public:
+    tablero();
+    void inicializarTablero(int filas, int columnas);
     tablero(int filas, int columnas);
     void actualizarRadar(int x, int y, bool golpe);
     bool verificarPos(int tipo, int x, int y, char orie);
