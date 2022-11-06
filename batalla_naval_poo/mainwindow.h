@@ -3,7 +3,11 @@
 
 #include <QMainWindow>
 #include <QPushButton>
-
+#include <vector>
+#include <QString>
+#include <QMessageBox>
+#include "dialog.h"
+using namespace std;
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
 QT_END_NAMESPACE
@@ -15,15 +19,27 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+    void inicializarJuego();
+    void inicializarMessageBox();
+    void iniciarMapas(int cant);
+    void inicializarSprites();
+    QString buscarSprite(char c);
 
 private:
-    QPushButton*** labels;
-    QPushButton*** labels2;
-    Ui::MainWindow *ui;
-    int positionX = 0;
-    int positionY = 0;
 
-private slots:
-    void celdaPresionada(QPushButton *a);
+    QMessageBox seleccionCarga;
+    QMessageBox seleccionPvp;
+    QMessageBox comienzo;
+    QMessageBox cambioTurno;
+    QMessageBox Ganador;
+    //falta  dialog para settings
+
+    vector <char> charSprites;
+    vector <QString> nombreSprites;
+
+    QPushButton*** mapaRadar;
+    QPushButton*** mapaOceano;
+    Ui::MainWindow *ui;
+
 };
 #endif // MAINWINDOW_H

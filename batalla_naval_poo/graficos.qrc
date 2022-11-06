@@ -1,5 +1,23 @@
 <RCC>
     <qresource prefix="/">
-        <file>fondo.jpg</file>
+        <file>sprites/agua_calma.jpg</file>
+        <file>sprites/agua_disparada.jpg</file>
+        <file>sprites/barco_horizontal_cola.jpg</file>
+        <file>sprites/barco_horizontal_cola_golpe.jpg</file>
+        <file>sprites/barco_horizontal_frente.jpg</file>
+        <file>sprites/barco_horizontal_frente_golpe.jpg</file>
+        <file>sprites/barco_horizontal_medio.jpg</file>
+        <file>sprites/barco_horizontal_medio_golpe.jpg</file>
+        <file>sprites/barco_vertical_cola.jpg</file>
+        <file>sprites/barco_vertical_cola_golpe.jpg</file>
+        <file>sprites/barco_vertical_frente.jpg</file>
+        <file>sprites/barco_vertical_frente_golpe.jpg</file>
+        <file>sprites/barco_vertical_medio.jpg</file>
+        <file>sprites/barco_vertical_medio_golpe.jpg</file>
+        <file>sprites/equis.jpg</file>
+        <file>sprites/lancha_horizontal.jpg</file>
+        <file>sprites/lancha_horizontal_golpe.jpg</file>
+        <file>sprites/lancha_vertical.jpg</file>
+        <file>sprites/lancha_vertical_golpe.jpg</file>
     </qresource>
 </RCC>
