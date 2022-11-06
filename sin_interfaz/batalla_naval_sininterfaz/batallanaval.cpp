@@ -57,8 +57,8 @@ bool batallaNaval::colocarAleatorioporTipo(int tipo, int cant, int jugador)
                 }
             }
         }
-        return true;
     }
+    return true;
 }
 
 void batallaNaval::mostrarTablero(int jugador)

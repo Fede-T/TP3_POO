@@ -47,13 +47,29 @@ void tablero::actualizarRadar(int x, int y, bool golpe)
     }
 }
 
-bool verificarLados(int x, int y,  char** map){
-    bool a = true;
-    if(map[x+1][y] != '-') a = false;   //verificamos arriba
-    if(map[x-1][y] != '-') a = false;   //verificamos abajo
-    if(map[x][y+1] != '-') a = false;   //verificamos derecha
-    if(map[x][y-1] != '-') a = false;   //verificamos izquierda
-    return a;
+bool verificarBorde(int x, int y, int filas, int columnas){
+    if(x < 0 || x >= filas){
+        return false;
+    }else if(y < 0 || y >= columnas){
+        return false;
+    }
+    return true;
+}
+
+bool verificarLados(int x, int y,  char** map, int filas, int columnas){
+    if(verificarBorde(x+1, y, filas, columnas)){
+        if(map[x+1][y] != '-') return false;   //verificamos arriba
+    }
+    if(verificarBorde(x-1, y, filas, columnas)){
+        if(map[x-1][y] != '-') return false;   //verificamos abajo
+    }
+    if(verificarBorde(x, y+1, filas, columnas)){
+        if(map[x][y+1] != '-') return false;   //verificamos derecha
+    }
+    if(verificarBorde(x, y-1, filas, columnas)){
+        if(map[x][y-1] != '-') return false;   //verificamos izquierda
+    }
+    return true;
 }
 
 bool tablero::verificarPos(int tipo, int x, int y, char orie){
@@ -65,27 +81,37 @@ bool tablero::verificarPos(int tipo, int x, int y, char orie){
     default: auxT = 3; break;   //sub o crucero
     }
 
-    bool verif = true;
 
     if(orie == 'H'){
         for(int i = 0; i < auxT; i++){
-            if(this->mapa[x][y+i] == '-'){
-                if(verificarLados(x, y, this->mapa) == false){
-                    verif = false;
+            if(verificarBorde(x, y+i, this->filas, this->columnas) == false){
+                return false;
+            }else{
+                if(this->mapa[x][y+i] != '-'){
+                    return false;
+                }else{
+                    if(verificarLados(x, y+i, this->mapa, this->filas, this->columnas) == false){
+                        return false;
+                    }
                 }
             }
         }
     }else{
         for(int i = 0; i < auxT; i++){
-            if(this->mapa[x+i][y] == '-'){
-                if(verificarLados(x, y, this->mapa) == false){
-                    verif = false;
+            if(verificarBorde(x+i, y, this->filas, this->columnas) == false){
+                return false;
+            }else{
+                if(this->mapa[x+i][y] != '-'){
+                    return false;
+                }else{
+                    if(verificarLados(x+i, y, this->mapa, this->filas, this->columnas) == false){
+                        return false;
+                    }
                 }
             }
         }
     }
-
-    return verif;
+    return true;
 }
 
 void tablero::colocarBarco(int tipo, int x, int y, char orientacion)
