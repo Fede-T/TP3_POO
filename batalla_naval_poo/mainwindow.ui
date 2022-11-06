@@ -6,14 +6,17 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1366</width>
-    <height>768</height>
+    <width>1000</width>
+    <height>562</height>
    </rect>
   </property>
   <property name="windowTitle">
    <string>MainWindow</string>
   </property>
   <property name="styleSheet">
+   <string notr="true"/>
+  </property>
+  <property name="windowFilePath">
    <string notr="true"/>
   </property>
   <widget class="QWidget" name="centralwidget">
@@ -42,7 +45,7 @@
         <property name="font">
          <font>
           <family>Arial</family>
-          <pointsize>28</pointsize>
+          <pointsize>15</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -75,7 +78,7 @@
         <property name="font">
          <font>
           <family>Arial</family>
-          <pointsize>28</pointsize>
+          <pointsize>15</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -108,7 +111,7 @@
         <property name="font">
          <font>
           <family>Arial</family>
-          <pointsize>28</pointsize>
+          <pointsize>15</pointsize>
           <bold>true</bold>
          </font>
         </property>
@@ -157,6 +160,9 @@
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
         </property>
+        <property name="spacing">
+         <number>1</number>
+        </property>
        </layout>
       </item>
       <item>
@@ -179,6 +185,9 @@
        <layout class="QGridLayout" name="oceanoVisual">
         <property name="sizeConstraint">
          <enum>QLayout::SetDefaultConstraint</enum>
+        </property>
+        <property name="spacing">
+         <number>1</number>
         </property>
        </layout>
       </item>
@@ -216,7 +225,7 @@
         <property name="font">
          <font>
           <family>Consolas</family>
-          <pointsize>16</pointsize>
+          <pointsize>10</pointsize>
          </font>
         </property>
         <property name="text">

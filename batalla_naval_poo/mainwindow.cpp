@@ -1,12 +1,16 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include <QWidget>
+#include <QString>
+#include <qDebug>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    qDebug("presionado");
+    this->ui->centralwidget->showMaximized();
     int cantidad = 5;
     this->labels = new QPushButton**[cantidad];
     this->labels2 = new QPushButton**[cantidad];
@@ -16,6 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
         for (int j = 0; j < cantidad; j++) {
 
             this->labels[i][j] = new QPushButton();
+            this.labels[i][j]->setText()
+            connect(this->labels[i][j], SIGNAL(clicked()), this, SLOT(celdaPresionada()));
             this->labels[i][j]->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
             this->labels2[i][j] = new QPushButton();
             this->labels2[i][j]->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
@@ -30,5 +36,10 @@ MainWindow::MainWindow(QWidget *parent)
 MainWindow::~MainWindow()
 {
     delete ui;
+}
+
+void MainWindow::celdaPresionada(QPushButton *a)
+{
+    qDebug("presionado");
 }
 

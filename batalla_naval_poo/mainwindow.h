@@ -22,5 +22,8 @@ private:
     Ui::MainWindow *ui;
     int positionX = 0;
     int positionY = 0;
+
+private slots:
+    void celdaPresionada(QPushButton *a);
 };
 #endif // MAINWINDOW_H
