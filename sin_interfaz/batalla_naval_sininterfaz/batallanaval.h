@@ -3,6 +3,7 @@
 #include "tablero.h"
 
 struct jugadorBase{
+    int numeroJugador;
     bool ia;
     tablero radar;
     tablero oceano;
@@ -17,11 +18,17 @@ private:
     jugadorBase jugador2;
     int cantBarcosTotal = 0;
     int cantBarcos[5]={0,0,0,0,0};
+    int ganador = 0;
 
 public:
     batallaNaval(int filas, int columnas, bool j1_es_ia, bool j2_es_ia);
     void definirCantBarcos(int port, int dest, int subm, int cruc, int lanc);
-
+    bool colocarAleatorioporTipo(int tipo, int cant, int jugador);
+    void mostrarTablero(int jugador);
+    //void colocarBarco(int x, int y, char o);
+    void iaDispara(int jugadorDisparo);
+    bool realizarDisparo(int x, int y, int jugador);
+    bool verificarGanador();
 };
 
 #endif // BATALLANAVAL_H

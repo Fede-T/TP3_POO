@@ -15,6 +15,7 @@ private:
     char **mapa;
     int filas;
     int columnas;
+    int barcosHundidos = 0;
 protected:
     vector <barco*> barcos;
 public:
@@ -27,6 +28,8 @@ public:
     bool recibirDisparo(int x, int y);
     void escTablero();
     ~tablero();
+    int getBarcosHundidos() const;
+    void setBarcosHundidos(int newBarcosHundidos);
 };
 
 #endif // TABLERO_H

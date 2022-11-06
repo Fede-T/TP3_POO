@@ -2,6 +2,16 @@
 #include <iostream>
 using namespace std;
 
+int tablero::getBarcosHundidos() const
+{
+    return barcosHundidos;
+}
+
+void tablero::setBarcosHundidos(int newBarcosHundidos)
+{
+    barcosHundidos = newBarcosHundidos;
+}
+
 tablero::tablero()
 {
 
@@ -151,6 +161,8 @@ bool tablero::recibirDisparo(int x, int y)
     for(int i = 0; i < this->barcos.size(); i++){
         if(this->barcos[i]->registrarHit(x, y) == true){
             actualizarOceano(this->mapa, x, y);
+            if(this->barcos[i]->getHundido()==true)
+                this->barcosHundidos++;
             return true;
         }
     }
