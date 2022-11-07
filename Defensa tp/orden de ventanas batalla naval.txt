@@ -1,0 +1,15 @@
+Orden ventanas:
+
+- Seleccion de partida nueva o continuar listo
+
+- Seleccion de pvp o pve listo
+
+- Seleccion de configuraciones listo
+
+- Ventana secundaria: colocar barcos 
+
+- Ventana para empezar.
+
+- MainWindow: juego
+
+- messagebox: ganador

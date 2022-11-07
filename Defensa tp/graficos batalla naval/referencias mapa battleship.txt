@@ -1,0 +1,39 @@
+Barcos genericos vivos
+B --> horizontal // L y R puntas
+b --> vertical // U y D puntas
+
+Barcos genericos con destruccion
+X --> horizontal // l y r puntas
+x --> vertical // u y d puntas
+----------------------------------------
+Lancha:
+S --> horizontal
+s --> vertical
+
+golpeada y hundido
+G --> horizontal
+g -->vertical
+--------------------------------------------
+agua:
+
+"-" si nunca se disparó
+"A" si se le disparó (se puede volver a disparar)
+
+-: agua_calma
+A: agua_disparada
+B: barco_horizontal_medio
+b: barco_vertical_medio
+C: barco_horizontal_cola
+F: barco_horizontal_frente
+U: barco_vertical_frente
+D: barco_vertical_cola
+X: barco_horizontal_medio_golpe
+x: barco_vertical_medio_golpe
+c: barco_horizontal_cola_golpe
+f: barco_horizontal_frente_golpe
+u: barco_vertical_frente_golpe
+d: barco_vertical_cola_golpe
+L: lancha_horizontal
+l: lancha_vertical
+G: lancha_horizontal_golpe
+g: lancha_vertical_golpe
