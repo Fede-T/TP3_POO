@@ -19,23 +19,38 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    void inicializarJuego();
+    config cargarConfiguraciones();
+    void taparMapas();
+    void inicializarJuego(config configuraciones);
+    void setGuia(int jugador, char mapa /*R o O*/);
+    void actualizarSprites(char mapa);
+    char getPosGuia(int i, int j, char tipo);
     void inicializarMessageBox();
     void iniciarMapas(int cant);
     void inicializarSprites();
     QString buscarSprite(char c);
 
-private:
+private slots:
+    void on_btnColocar_clicked();
 
+    void on_btnTerminarTurno_clicked();
+
+private:
+    int indexTipo = 0;
+    int jug = 1;
+    int cantBarcosColocados = 0;
+    batallaNaval juego;
     QMessageBox seleccionCarga;
-    QMessageBox seleccionPvp;
     QMessageBox comienzo;
     QMessageBox cambioTurno;
     QMessageBox Ganador;
-    //falta  dialog para settings
+    QMessageBox ErrorColocacion;
 
     vector <char> charSprites;
     vector <QString> nombreSprites;
+
+    char** guiaRadar;
+    char** guiaOceano;
 
     QPushButton*** mapaRadar;
     QPushButton*** mapaOceano;

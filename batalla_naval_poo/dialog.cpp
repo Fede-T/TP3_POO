@@ -1,5 +1,6 @@
 #include "dialog.h"
 #include "ui_dialog.h"
+#include "mainwindow.h"
 
 Dialog::Dialog(QWidget *parent) :
     QDialog(parent),
@@ -13,9 +14,17 @@ Dialog::~Dialog()
     delete ui;
 }
 
-config Dialog::on_buttonBox_accepted()
+void Dialog::on_buttonBox_accepted()
 {
     config configuraciones;
+    bool resp = this->ui->modo2jugadores->isChecked();
+    if(!resp){
+        configuraciones.vsIA = false;
+        qDebug()<<"se juega vs ia";
+    }else{
+        configuraciones.vsIA = true;
+        qDebug()<<"se juega vs player";
+    }
 
     if(this->ui->recomendado->isChecked()){
         configuraciones.n = 10;
@@ -53,6 +62,9 @@ config Dialog::on_buttonBox_accepted()
         configuraciones.cants = 1;
     }
 
-    return configuraciones;
+    MainWindow* mw = dynamic_cast<MainWindow*>(this->parent());
+    mw->inicializarJuego(configuraciones);
+
+
 }
 

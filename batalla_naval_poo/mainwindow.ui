@@ -81,7 +81,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Turno de jugador: 0</string>
+         <string>Turno de jugador: 1</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>

@@ -3,20 +3,37 @@
 #include <ctime>
 #include <stdlib.h>
 
-batallaNaval::batallaNaval(int filas, int columnas, bool j1_es_ia, bool j2_es_ia)
+void batallaNaval::inicializarMapa(int filas, int columnas)
 {
     this->filas = filas;
     this->columnas = columnas;
 
-    this->jugador1.ia = j1_es_ia;
     this->jugador1.numeroJugador = 1;
     this->jugador1.radar.inicializarTablero(filas, columnas);
     this->jugador1.oceano.inicializarTablero(filas, columnas);
 
-    this->jugador2.ia = j2_es_ia;
     this->jugador2.numeroJugador = 2;
     this->jugador2.radar.inicializarTablero(filas, columnas);
     this->jugador2.oceano.inicializarTablero(filas, columnas);
+}
+
+char batallaNaval::getPosMapa(int i, int j, int jugador, char mapa)
+{
+    if(jugador == 1){
+        if(mapa == 'R'){
+            return this->jugador1.radar.getPosTablero(i,j);
+        }else{
+            return this->jugador1.oceano.getPosTablero(i,j);
+        }
+    }
+    if(jugador == 2){
+        if(mapa == 'R'){
+            return this->jugador2.radar.getPosTablero(i,j);
+        }else{
+            return this->jugador2.oceano.getPosTablero(i,j);
+        }
+    }
+
 }
 
 void batallaNaval::definirCantBarcos(int port, int dest, int subm, int cruc, int lanc)
@@ -26,6 +43,24 @@ void batallaNaval::definirCantBarcos(int port, int dest, int subm, int cruc, int
     this->cantBarcos[2] = subm; this->cantBarcosTotal += subm;
     this->cantBarcos[3] = cruc; this->cantBarcosTotal += cruc;
     this->cantBarcos[4] = lanc; this->cantBarcosTotal += lanc;
+}
+
+bool batallaNaval::verificarPosicion(int tipo, int x, int y, char orie, int jugador)
+{
+    if(jugador == 1){
+        if(this->jugador1.oceano.verificarPos(tipo, x, y, orie)){
+            return true;
+        }else{
+            return false;
+        }
+    }else if(jugador == 2){
+        if(this->jugador2.oceano.verificarPos(tipo, x, y, orie)){
+            return true;
+        }else{
+            return false;
+        }
+    }
+    return false;
 }
 
 bool batallaNaval::colocarAleatorioporTipo(int tipo, int cant, int jugador)
@@ -67,6 +102,15 @@ void batallaNaval::mostrarTablero(int jugador)
         this->jugador1.oceano.escTablero();
     }else{
         this->jugador2.oceano.escTablero();
+    }
+}
+
+void batallaNaval::colocarBarco(int tipo, int x, int y, char orientacion, int jugador)
+{
+    if(jugador == 1){
+        this->jugador1.oceano.colocarBarco(tipo, x, y, orientacion);
+    }else{
+        this->jugador2.oceano.colocarBarco(tipo, x, y, orientacion);
     }
 }
 

@@ -27,6 +27,7 @@ public:
     void colocarBarco(int tipo, int x, int y, char orientacion);
     bool recibirDisparo(int x, int y);
     void escTablero();
+    char getPosTablero(int i, int j){return this->mapa[i][j];}
     ~tablero();
     int getBarcosHundidos() const;
     void setBarcosHundidos(int newBarcosHundidos);

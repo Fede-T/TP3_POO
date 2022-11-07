@@ -4,12 +4,12 @@
 
 struct jugadorBase{
     int numeroJugador;
-    bool ia;
     tablero radar;
     tablero oceano;
 };
 
 struct config{
+    bool vsIA;
     int n;
     int cantp;
     int cantd;
@@ -25,19 +25,28 @@ private:
     int columnas;
     jugadorBase jugador1;
     jugadorBase jugador2;
-    int cantBarcosTotal = 0;
-    int cantBarcos[5]={0,0,0,0,0};
+
     int ganador = 0;
 
 public:
-    batallaNaval(int filas, int columnas, bool j1_es_ia, bool j2_es_ia);
+    int cantBarcos[5]={0,0,0,0,0};
+    int cantBarcosTotal = 0;
+
+public:
+    batallaNaval(){};
+    int getN(){return this->filas;}
+    void inicializarMapa(int filas, int columnas);
+    char getPosMapa(int i, int j, int jugador, char mapa);
     void definirCantBarcos(int port, int dest, int subm, int cruc, int lanc);
+    bool verificarPosicion(int tipo, int x, int y, char orie, int jugador);
     bool colocarAleatorioporTipo(int tipo, int cant, int jugador);
     void mostrarTablero(int jugador);
-    //void colocarBarco(int x, int y, char o);
+    void colocarBarco(int tipo, int x, int y, char orientacion, int jugador);
     void iaDispara(int jugadorDisparo);
     bool realizarDisparo(int x, int y, int jugador);
     bool verificarGanador();
+    int getCantBarcosTotal() const;
+    void setCantBarcosTotal(int newCantBarcosTotal);
 };
 
 #endif // BATALLANAVAL_H
