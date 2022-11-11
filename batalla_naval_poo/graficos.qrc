@@ -19,5 +19,6 @@
         <file>sprites/lancha_horizontal_golpe.jpg</file>
         <file>sprites/lancha_vertical.jpg</file>
         <file>sprites/lancha_vertical_golpe.jpg</file>
+        <file>sprites/random_icon.png</file>
     </qresource>
 </RCC>
