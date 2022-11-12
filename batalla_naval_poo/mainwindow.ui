@@ -37,7 +37,7 @@
      <number>9</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="parte_superior" stretch="5,1,4,1,5">
+     <layout class="QHBoxLayout" name="parte_superior" stretch="5,1,0,0,1,5">
       <item>
        <widget class="QLabel" name="label">
         <property name="font">
@@ -81,10 +81,24 @@
          </font>
         </property>
         <property name="text">
-         <string>Turno de jugador: 1</string>
+         <string>Turno de jugador:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_2">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>15</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>0</string>
         </property>
        </widget>
       </item>
@@ -300,7 +314,7 @@
         </property>
         <property name="styleSheet">
          <string notr="true">image: url(:/sprites/random_icon.png);
-border:1px solid black</string>
+</string>
         </property>
         <property name="text">
          <string/>

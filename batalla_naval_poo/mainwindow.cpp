@@ -10,7 +10,7 @@ MainWindow::MainWindow(QWidget *parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    this->showMaximized();
+    //this->showMaximized();
     this->inicializarMessageBox();
     config settings;
     this->seleccionCarga.exec();
