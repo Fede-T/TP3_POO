@@ -35,6 +35,8 @@ private slots:
 
     void on_btnTerminarTurno_clicked();
 
+    void on_btnRandom_clicked();
+
 private:
     int indexTipo = 0;
     int jug = 1;

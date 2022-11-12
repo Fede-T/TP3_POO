@@ -54,10 +54,37 @@ void MainWindow::inicializarJuego(config configuraciones)
         qDebug() << "configuraciones no funcionan, ver inicializar juego";
         QTimer::singleShot(250, qApp, SLOT(quit()));
     }
+
     this->inicializarSprites();
     this->iniciarMapas(configuraciones.n);
     this->juego.inicializarMapa(configuraciones.n, configuraciones.n);
     this->juego.definirCantBarcos(configuraciones.cantp, configuraciones.cantd, configuraciones.cants, configuraciones.cantc, configuraciones.cantl);
+
+    this->ui->turno->setText(QString::number(this->jug));
+    for(int i = 0; i < 5; i++){
+        if(this->juego.cantBarcos[i] != 0){
+            switch (i){
+            case 0:
+                this->ui->instruccionesLabel->setText("Ingrese la posicion de un portaaviones.");
+                break;
+            case 1:
+                this->ui->instruccionesLabel->setText("Ingrese la posicion de un destructor.");
+                break;
+            case 2:
+                this->ui->instruccionesLabel->setText("Ingrese la posicion de un submarino.");
+                break;
+            case 3:
+                this->ui->instruccionesLabel->setText("Ingrese la posicion de un crucero.");
+                break;
+            case 4:
+                this->ui->instruccionesLabel->setText("Ingrese la posicion de un lancha.");
+                break;
+            default:
+                this->ui->instruccionesLabel->setText("Ingrese un ...");
+            }
+            break;
+        }
+    }
 
 }
 
@@ -395,6 +422,26 @@ void MainWindow::on_btnColocar_clicked()
 void MainWindow::on_btnTerminarTurno_clicked()
 {
     this->taparMapas();
+    this->ui->btnTerminarTurno->setEnabled(true);
     this->cambioTurno.exec();
+    this->ui->turno->setText(QString::number(this->jug));
+}
+
+
+void MainWindow::on_btnRandom_clicked()
+{
+    this->ui->btnRandom->setEnabled(false);
+    for(int i = 0; i < 5; i++){
+        this->juego.colocarAleatorioporTipo(i, this->juego.cantBarcos[i], this->jug);
+        this->setGuia(this->jug, 'O');
+        this->actualizarSprites('O');
+    }
+    this->ui->btnTerminarTurno->setEnabled(true);
+
+    if(this->jug == 1){
+        jug = 2;
+    }else{
+
+    }
 }
 
