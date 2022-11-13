@@ -330,101 +330,18 @@ void MainWindow::on_btnColocar_clicked()
 
 }
 
-/*void MainWindow::on_btnColocar_clicked()
-{
-    QString a;
-    int t;
-    int posX, posY; char orientacion;
-    std::string b;
-
-    if(this->cantBarcosColocados == this->juego.cantBarcosTotal){
-        if(this->jug == 1){
-            this->taparMapas();
-            cambioTurno.exec();
-            this->jug = 2;
-            this->ui->turno_de->setText("Turno de jugador: 2");
-            //colocar tapa
-            this->cantBarcosColocados = 0;
-        }else if(jug == 2){
-            this->ui->btnDisparar->setEnabled(true);
-            this->ui->btnColocar->setEnabled(false);
-            this->ui->btnOrientacion->setEnabled(false);
-        }
-    }else{
-        do{
-            if(this->juego.cantBarcos[this->indexTipo] >= 0){
-                t = this->indexTipo;
-                this->cantBarcosColocados++;
-                this->juego.cantBarcos[this->indexTipo]--;
-                break;
-            }
-            else{
-                this->indexTipo++;
-            }
-        }while(true);
-
-        switch(t){
-        case 0:
-            this->ui->instruccionesLabel->setText("Ingresado la posicion de un portaaviones.");
-            break;
-        case 1:
-            this->ui->instruccionesLabel->setText("Ingresado la posicion de un destructor.");
-            break;
-        case 2:
-            this->ui->instruccionesLabel->setText("Ingresado la posicion de un submarino.");
-            break;
-        case 3:
-            this->ui->instruccionesLabel->setText("Ingresado la posicion de un crucero.");
-            break;
-        case 4:
-            this->ui->instruccionesLabel->setText("Ingresado la posicion de un lancha.");
-            break;
-        }
-
-        a = this->ui->coordX->text();
-        posX = a.toInt();
-        a = this->ui->coordY->text();
-        posY = a.toInt();
-        a = this->ui->btnOrientacion->currentText();
-        b = a.toStdString();
-        orientacion = b[0];
-
-        if(this->juego.verificarPosicion(t, posX-1, posY-1, orientacion, this->jug)){
-            this->juego.colocarBarco(t, posX-1, posY-1, orientacion, this->jug);
-            this->setGuia(this->jug, 'O');
-            this->actualizarSprites('O');
-        }else{
-            this->ErrorColocacion.exec();
-            this->cantBarcosColocados--;
-            this->juego.cantBarcos[this->indexTipo]++;
-        }
-        this->ui->coordX->clear();
-        this->ui->coordY->clear();
-
-        if(this->cantBarcosColocados == this->juego.cantBarcosTotal){
-            if(this->jug == 1){
-                this->taparMapas();
-                cambioTurno.exec();
-                this->jug = 2;
-                this->ui->turno_de->setText("Turno de jugador: 2");
-                //colocar tapa
-                this->cantBarcosColocados = 0;
-            }else if(jug == 2){
-                this->ui->btnDisparar->setEnabled(true);
-                this->ui->btnColocar->setEnabled(false);
-                this->ui->btnOrientacion->setEnabled(false);
-            }
-        }
-    }
-}
-*/
 
 void MainWindow::on_btnTerminarTurno_clicked()
 {
-    this->taparMapas();
-    this->ui->btnTerminarTurno->setEnabled(true);
-    this->cambioTurno.exec();
-    this->ui->turno->setText(QString::number(this->jug));
+    if(this->juego.getVsIA()){
+
+    }else{
+        this->taparMapas();
+        this->ui->btnTerminarTurno->setEnabled(false);
+        this->cambioTurno.exec();
+        this->cambiarJugador();
+        this->ui->turno->setText(QString::number(this->jug));
+    }
 }
 
 
@@ -437,11 +354,5 @@ void MainWindow::on_btnRandom_clicked()
         this->actualizarSprites('O');
     }
     this->ui->btnTerminarTurno->setEnabled(true);
-
-    if(this->jug == 1){
-        jug = 2;
-    }else{
-
-    }
 }
 

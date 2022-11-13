@@ -26,6 +26,7 @@ public:
     bool verificarPos(int tipo, int x, int y, char orie);
     void colocarBarco(int tipo, int x, int y, char orientacion);
     bool recibirDisparo(int x, int y);
+    void moverLanchas();
     void escTablero();
     char getPosTablero(int i, int j){return this->mapa[i][j];}
     ~tablero();

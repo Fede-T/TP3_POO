@@ -1,5 +1,6 @@
 #include "tablero.h"
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 int tablero::getBarcosHundidos() const
@@ -194,6 +195,147 @@ bool tablero::recibirDisparo(int x, int y)
     }
     actualizarOceano(this->mapa, x, y);
     return false;
+}
+
+bool verificarMovLancha(char** map, char dir, int x, int y, int n){
+    switch(dir){
+    case 'U':
+        if(verificarBorde(x-1, y, n, n)){
+            if((map[x-1][y] != '-')&&(map[x-1][y] != 'A')){
+                return false;
+            }else{
+                return false;
+            }
+        }
+
+        if(verificarBorde(x-2, y, n, n)){
+            if((map[x-2][y] != '-')&&(map[x-2][y] != 'A')){
+                return false;
+            }
+        }
+
+        if(verificarBorde(x+1, y+1, n, n)){
+            if((map[x+1][y+1] != '-')&&(map[x+1][y+1] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x+1, y-1, n, n)){
+            if((map[x+1][y-1] != '-')&&(map[x+1][y-1] != 'A')){
+                return false;
+            }
+        }
+        break;
+
+    case 'D':
+        if(verificarBorde(x+1, y, n, n)){
+            if((map[x+1][y] != '-')&&(map[x+1][y] != 'A')){
+                return false;
+            }else{
+                return false;
+            }
+        }
+        if(verificarBorde(x+2, y, n, n)){
+            if((map[x+2][y] != '-')&&(map[x+2][y] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x+1, y+1, n, n)){
+            if((map[x+1][y+1] != '-')&&(map[x+1][y+1] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x+1, y-1, n, n)){
+            if((map[x+1][y-1] != '-')&&(map[x+1][y-1] != 'A')){
+                return false;
+            }
+        }
+        break;
+
+    case 'R':
+        if(verificarBorde(x, y+1, n, n)){
+            if((map[x][y+1] != '-')&&(map[x][y+1] != 'A')){
+                return false;
+            }else{
+                return false;
+            }
+        }
+        if(verificarBorde(x, y+2, n, n)){
+            if((map[x][y+2] != '-')&&(map[x][y+2] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x-1, y+1, n, n)){
+            if((map[x-1][y+1] != '-')&&(map[x-1][y+1] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x-1, y-1, n, n)){
+            if((map[x-1][y-1] != '-')&&(map[x-1][y-1] != 'A')){
+                return false;
+            }
+        }
+        break;
+
+    case 'L':
+        if(verificarBorde(x, y-1, n, n)){
+            if((map[x][y-1] != '-')&&(map[x][y-1] != 'A')){
+                return false;
+            }else{
+                return false;
+            }
+        }
+        if(verificarBorde(x, y-2, n, n)){
+            if((map[x][y-2] != '-')&&(map[x][y-2] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x-1, y-1, n, n)){
+            if((map[x-1][y-1] != '-')&&(map[x-1][y-1] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x+1, y-1, n, n)){
+            if((map[x+1][y-1] != '-')&&(map[x+1][y-1] != 'A')){
+                return false;
+            }
+        }
+        break;
+    }
+}
+
+void tablero::moverLanchas()
+{
+    srand(time(NULL));
+    vector <char>dir;
+    int j;
+    char direccion = 'a';
+    for(int i = 0; i < this->barcos.size(); i++){
+        if(this->barcos[i]->getTipo() == 4){
+            dir.push_back('U');
+            dir.push_back('D');
+            dir.push_back('R');
+            dir.push_back('L');
+            do{
+                if(dir.size() == 0){
+                    direccion = 'a';
+                    break;
+                }
+                j = rand()% dir.size();
+                if(verificarMovLancha(this->mapa, dir[j], this->barcos[i]->getPosX(), this->barcos[i]->getPosY(), this->filas)){
+                    direccion = dir[j];
+                    for(int k = 0; k < dir.size(); k++){
+                        dir.erase(dir.begin()+k);
+                    }
+                    break;
+                }else{
+                    dir.erase(dir.begin()+j);
+                }
+            }while(true);
+            if(direccion != 'a'){
+                this->barcos[i]->moverse(direccion);
+            }
+        }
+    }
 }
 
 void tablero::escTablero()

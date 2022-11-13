@@ -3,6 +3,11 @@
 #include <ctime>
 #include <stdlib.h>
 
+bool batallaNaval::getVsIA() const
+{
+    return vsIA;
+}
+
 void batallaNaval::inicializarMapa(int filas, int columnas)
 {
     this->filas = filas;
@@ -34,6 +39,7 @@ char batallaNaval::getPosMapa(int i, int j, int jugador, char mapa)
         }
     }
 
+    return '-';
 }
 
 void batallaNaval::definirCantBarcos(int port, int dest, int subm, int cruc, int lanc)
@@ -111,6 +117,15 @@ void batallaNaval::colocarBarco(int tipo, int x, int y, char orientacion, int ju
         this->jugador1.oceano.colocarBarco(tipo, x, y, orientacion);
     }else{
         this->jugador2.oceano.colocarBarco(tipo, x, y, orientacion);
+    }
+}
+
+void batallaNaval::moverLanchas(int jugador)
+{
+    if(jugador == 1){
+        this->jugador1.oceano.moverLanchas();
+    }else if(jugador == 2){
+        this->jugador2.oceano.moverLanchas();
     }
 }
 

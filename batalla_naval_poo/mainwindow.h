@@ -48,6 +48,8 @@ private:
     QMessageBox Ganador;
     QMessageBox ErrorColocacion;
 
+    bool colocacion = true;
+
     vector <char> charSprites;
     vector <QString> nombreSprites;
 
@@ -56,6 +58,15 @@ private:
 
     QPushButton*** mapaRadar;
     QPushButton*** mapaOceano;
+
+    void cambiarJugador(){
+        if(this->jug == 1){
+            this->jug = 2;
+        }else{
+            this->jug = 1;
+        }
+    }
+
     Ui::MainWindow *ui;
 
 };

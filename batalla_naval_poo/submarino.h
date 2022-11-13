@@ -11,6 +11,7 @@ public:
     bool registrarHit(int x, int y);
     void verificar();
     void actualizarEstado();
+    int getTipo() {return 2;}
     ~submarino();
 };
 

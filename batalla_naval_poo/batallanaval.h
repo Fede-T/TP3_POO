@@ -23,6 +23,7 @@ class batallaNaval
 private:
     int filas;
     int columnas;
+    bool vsIA;
     jugadorBase jugador1;
     jugadorBase jugador2;
 
@@ -42,11 +43,13 @@ public:
     bool colocarAleatorioporTipo(int tipo, int cant, int jugador);
     void mostrarTablero(int jugador);
     void colocarBarco(int tipo, int x, int y, char orientacion, int jugador);
+    void moverLanchas(int jugador);
     void iaDispara(int jugadorDisparo);
     bool realizarDisparo(int x, int y, int jugador);
     bool verificarGanador();
     int getCantBarcosTotal() const;
     void setCantBarcosTotal(int newCantBarcosTotal);
+    bool getVsIA() const;
 };
 
 #endif // BATALLANAVAL_H

@@ -11,6 +11,7 @@ public:
     bool registrarHit(int x, int y);
     void moverse(char mov);
     void actualizarEstado();
+    int getTipo() {return 4;}
     ~lancha();
 };
 
