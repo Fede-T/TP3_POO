@@ -50,6 +50,7 @@ public:
     int getCantBarcosTotal() const;
     void setCantBarcosTotal(int newCantBarcosTotal);
     bool getVsIA() const;
+    void setVsIA(bool newVsIA);
 };
 
 #endif // BATALLANAVAL_H

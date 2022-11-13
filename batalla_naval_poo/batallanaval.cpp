@@ -8,6 +8,11 @@ bool batallaNaval::getVsIA() const
     return vsIA;
 }
 
+void batallaNaval::setVsIA(bool newVsIA)
+{
+    vsIA = newVsIA;
+}
+
 void batallaNaval::inicializarMapa(int filas, int columnas)
 {
     this->filas = filas;

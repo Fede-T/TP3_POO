@@ -11,6 +11,7 @@ public:
     bool registrarHit(int x, int y);
     void actualizarEstado();
     int getTipo() {return 3;}
+    void moverse(char mov){};
     ~crucero();
 };
 

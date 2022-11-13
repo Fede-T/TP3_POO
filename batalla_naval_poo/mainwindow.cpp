@@ -59,28 +59,29 @@ void MainWindow::inicializarJuego(config configuraciones)
     this->iniciarMapas(configuraciones.n);
     this->juego.inicializarMapa(configuraciones.n, configuraciones.n);
     this->juego.definirCantBarcos(configuraciones.cantp, configuraciones.cantd, configuraciones.cants, configuraciones.cantc, configuraciones.cantl);
+    this->juego.setVsIA(configuraciones.vsIA);
 
     this->ui->turno->setText(QString::number(this->jug));
     for(int i = 0; i < 5; i++){
         if(this->juego.cantBarcos[i] != 0){
             switch (i){
             case 0:
-                this->ui->instruccionesLabel->setText("Ingrese la posicion de un portaaviones.");
+                this->ui->instruccionesLabel->setText("Soldado! Ingrese la posicion de un portaaviones.");
                 break;
             case 1:
-                this->ui->instruccionesLabel->setText("Ingrese la posicion de un destructor.");
+                this->ui->instruccionesLabel->setText("Soldado! Ingrese la posicion de un destructor.");
                 break;
             case 2:
-                this->ui->instruccionesLabel->setText("Ingrese la posicion de un submarino.");
+                this->ui->instruccionesLabel->setText("Soldado! Ingrese la posicion de un submarino.");
                 break;
             case 3:
-                this->ui->instruccionesLabel->setText("Ingrese la posicion de un crucero.");
+                this->ui->instruccionesLabel->setText("Soldado! Ingrese la posicion de un crucero.");
                 break;
             case 4:
-                this->ui->instruccionesLabel->setText("Ingrese la posicion de un lancha.");
+                this->ui->instruccionesLabel->setText("Soldado! Ingrese la posicion de un lancha.");
                 break;
             default:
-                this->ui->instruccionesLabel->setText("Ingrese un ...");
+                this->ui->instruccionesLabel->setText("Esto no lo deberias ver, mala suerte :(");
             }
             break;
         }
@@ -327,14 +328,90 @@ QString MainWindow::buscarSprite(char c)
 
 void MainWindow::on_btnColocar_clicked()
 {
+    int posx, posy;
+    char orientacion;
+    QString auxqstring;
+    string auxstring;
+    if(this->juego.getVsIA()){
+        auxqstring = this->ui->coordX->text();
+        posx = auxqstring.toInt();
 
+        auxqstring = this->ui->coordY->text();
+        posy = auxqstring.toInt();
+
+        auxqstring = this->ui->btnOrientacion->currentText();
+        auxstring = auxqstring.toStdString();
+        orientacion = auxstring[0];
+        bool a = true;
+        do{
+            if(this->juego.cantBarcos[this->indexTipo] > 0){
+                a = false;
+                if(this->juego.verificarPosicion(this->indexTipo, posx-1, posy-1, orientacion, this->jug)){
+                    this->juego.colocarBarco(this->indexTipo, posx-1, posy-1, orientacion, this->jug);
+                    this->juego.cantBarcos[this->indexTipo]--;
+                    this->ui->coordX->clear();
+                    this->ui->coordY->clear();
+                    this->setGuia(this->jug, 'O');
+                    this->actualizarSprites('O');
+                    this->cantBarcosColocados++;
+                    for(int i = 0; i < 5; i++){
+                        if(this->juego.cantBarcos[i] != 0){
+                            switch (i){
+                            case 0:
+                                this->ui->instruccionesLabel->setText("¡Soldado! Ingrese la posicion de un portaaviones.");
+                                break;
+                            case 1:
+                                this->ui->instruccionesLabel->setText("¡Soldado! Ingrese la posicion de un destructor.");
+                                break;
+                            case 2:
+                                this->ui->instruccionesLabel->setText("¡Soldado! Ingrese la posicion de un submarino.");
+                                break;
+                            case 3:
+                                this->ui->instruccionesLabel->setText("¡Soldado! Ingrese la posicion de un crucero.");
+                                break;
+                            case 4:
+                                this->ui->instruccionesLabel->setText("¡Soldado! Ingrese la posicion de un lancha.");
+                                break;
+                            }
+                            break;
+                        }
+                    }
+                }else{
+                    this->ErrorColocacion.exec();
+                    this->ui->coordX->clear();
+                    this->ui->coordY->clear();
+
+                }
+            }else{
+                this->indexTipo++;
+            }
+        }while(a == true);
+
+        if(cantBarcosColocados == this->juego.cantBarcosTotal){
+            this->ui->instruccionesLabel->setText("Bien hecho soldado. Todas las unidades colocadas.\nPresione \"terminar turno\" ¡Es una orden!");
+            this->ui->btnColocar->setEnabled(false);
+            this->ui->btnOrientacion->setEnabled(false);
+            this->ui->btnRandom->setEnabled(false);
+            this->ui->btnTerminarTurno->setEnabled(true);
+        }
+
+    }else{
+
+    }
 }
-
 
 void MainWindow::on_btnTerminarTurno_clicked()
 {
     if(this->juego.getVsIA()){
+        if(this->modoColocacion){
+            this->ui->btnTerminarTurno->setEnabled(false);
+            this->modoColocacion = false;
+            this->ui->btnDisparar->setEnabled(true);
+            this->ui->instruccionesLabel->setText("¡Soldado! Ingrese una coordenada para disparar");
+        }
+        else{
 
+        }
     }else{
         this->taparMapas();
         this->ui->btnTerminarTurno->setEnabled(false);
@@ -344,15 +421,19 @@ void MainWindow::on_btnTerminarTurno_clicked()
     }
 }
 
-
 void MainWindow::on_btnRandom_clicked()
 {
-    this->ui->btnRandom->setEnabled(false);
-    for(int i = 0; i < 5; i++){
-        this->juego.colocarAleatorioporTipo(i, this->juego.cantBarcos[i], this->jug);
-        this->setGuia(this->jug, 'O');
-        this->actualizarSprites('O');
+    if(this->juego.getVsIA()){
+        this->ui->btnRandom->setEnabled(false);
+        for(int i = 0; i < 5; i++){
+            this->juego.colocarAleatorioporTipo(i, this->juego.cantBarcos[i], this->jug);
+            this->setGuia(this->jug, 'O');
+            this->actualizarSprites('O');
+        }
+        this->ui->instruccionesLabel->setText("Bien hecho soldado. Todas las unidades colocadas.\nPresione \"terminar turno\" ¡Es una orden!");
+        this->ui->btnColocar->setEnabled(false);
+        this->ui->btnOrientacion->setEnabled(false);
+        this->ui->btnTerminarTurno->setEnabled(true);
     }
-    this->ui->btnTerminarTurno->setEnabled(true);
 }
 

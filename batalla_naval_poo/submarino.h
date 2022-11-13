@@ -12,6 +12,7 @@ public:
     void verificar();
     void actualizarEstado();
     int getTipo() {return 2;}
+    void moverse(char mov){};
     ~submarino();
 };
 

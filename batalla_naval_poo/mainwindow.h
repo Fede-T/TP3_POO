@@ -48,7 +48,7 @@ private:
     QMessageBox Ganador;
     QMessageBox ErrorColocacion;
 
-    bool colocacion = true;
+    bool modoColocacion = true;
 
     vector <char> charSprites;
     vector <QString> nombreSprites;
