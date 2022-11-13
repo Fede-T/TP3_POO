@@ -203,9 +203,9 @@ bool verificarMovLancha(char** map, char dir, int x, int y, int n){
         if(verificarBorde(x-1, y, n, n)){
             if((map[x-1][y] != '-')&&(map[x-1][y] != 'A')){
                 return false;
-            }else{
-                return false;
             }
+        }else{
+            return false;
         }
 
         if(verificarBorde(x-2, y, n, n)){
@@ -214,13 +214,13 @@ bool verificarMovLancha(char** map, char dir, int x, int y, int n){
             }
         }
 
-        if(verificarBorde(x+1, y+1, n, n)){
-            if((map[x+1][y+1] != '-')&&(map[x+1][y+1] != 'A')){
+        if(verificarBorde(x-1, y+1, n, n)){
+            if((map[x-1][y+1] != '-')&&(map[x-1][y+1] != 'A')){
                 return false;
             }
         }
-        if(verificarBorde(x+1, y-1, n, n)){
-            if((map[x+1][y-1] != '-')&&(map[x+1][y-1] != 'A')){
+        if(verificarBorde(x-1, y-1, n, n)){
+            if((map[x-1][y-1] != '-')&&(map[x-1][y-1] != 'A')){
                 return false;
             }
         }
@@ -230,10 +230,11 @@ bool verificarMovLancha(char** map, char dir, int x, int y, int n){
         if(verificarBorde(x+1, y, n, n)){
             if((map[x+1][y] != '-')&&(map[x+1][y] != 'A')){
                 return false;
-            }else{
-                return false;
             }
+        }else{
+            return false;
         }
+
         if(verificarBorde(x+2, y, n, n)){
             if((map[x+2][y] != '-')&&(map[x+2][y] != 'A')){
                 return false;
@@ -255,10 +256,11 @@ bool verificarMovLancha(char** map, char dir, int x, int y, int n){
         if(verificarBorde(x, y+1, n, n)){
             if((map[x][y+1] != '-')&&(map[x][y+1] != 'A')){
                 return false;
-            }else{
-                return false;
             }
+        }else{
+            return false;
         }
+
         if(verificarBorde(x, y+2, n, n)){
             if((map[x][y+2] != '-')&&(map[x][y+2] != 'A')){
                 return false;
@@ -269,8 +271,8 @@ bool verificarMovLancha(char** map, char dir, int x, int y, int n){
                 return false;
             }
         }
-        if(verificarBorde(x-1, y-1, n, n)){
-            if((map[x-1][y-1] != '-')&&(map[x-1][y-1] != 'A')){
+        if(verificarBorde(x+1, y+1, n, n)){
+            if((map[x+1][y+1] != '-')&&(map[x+1][y+1] != 'A')){
                 return false;
             }
         }
@@ -280,15 +282,17 @@ bool verificarMovLancha(char** map, char dir, int x, int y, int n){
         if(verificarBorde(x, y-1, n, n)){
             if((map[x][y-1] != '-')&&(map[x][y-1] != 'A')){
                 return false;
-            }else{
-                return false;
             }
+        }else{
+            return false;
         }
+
         if(verificarBorde(x, y-2, n, n)){
             if((map[x][y-2] != '-')&&(map[x][y-2] != 'A')){
                 return false;
             }
         }
+
         if(verificarBorde(x-1, y-1, n, n)){
             if((map[x-1][y-1] != '-')&&(map[x-1][y-1] != 'A')){
                 return false;
@@ -301,6 +305,8 @@ bool verificarMovLancha(char** map, char dir, int x, int y, int n){
         }
         break;
     }
+
+    return true;
 }
 
 void tablero::moverLanchas()
@@ -308,31 +314,34 @@ void tablero::moverLanchas()
     srand(time(NULL));
     vector <char>dir;
     int j;
-    char direccion = 'a';
+    char direccion = ' ';
     for(int i = 0; i < this->barcos.size(); i++){
         if(this->barcos[i]->getTipo() == 4){
-            dir.push_back('U');
-            dir.push_back('D');
-            dir.push_back('R');
-            dir.push_back('L');
-            do{
-                if(dir.size() == 0){
-                    direccion = 'a';
-                    break;
-                }
-                j = rand()% dir.size();
-                if(verificarMovLancha(this->mapa, dir[j], this->barcos[i]->getPosX(), this->barcos[i]->getPosY(), this->filas)){
-                    direccion = dir[j];
-                    for(int k = 0; k < dir.size(); k++){
-                        dir.erase(dir.begin()+k);
+            if(this->barcos[i]->getHundido() == false){
+                dir.push_back('U');
+                dir.push_back('D');
+                dir.push_back('R');
+                dir.push_back('L');
+                for(int k = 0; k < 4; k++){
+                    j = rand()% dir.size();
+                    if(verificarMovLancha(this->mapa, dir[j], this->barcos[i]->getPosX(), this->barcos[i]->getPosY(), this->filas)){
+                        direccion = dir[j];
+                        dir.clear();
+                        break;
+                    }else{
+                        dir.erase(dir.begin()+j);
+                        direccion = ' ';
                     }
-                    break;
-                }else{
-                    dir.erase(dir.begin()+j);
                 }
-            }while(true);
-            if(direccion != 'a'){
-                this->barcos[i]->moverse(direccion);
+                if(direccion != ' '){
+                    this->mapa[this->barcos[i]->getPosX()][this->barcos[i]->getPosY()] = '-';
+                    this->barcos[i]->moverse(direccion);
+
+                    if(this->barcos[i]->getOrientacion() == 'H')
+                        this->mapa[this->barcos[i]->getPosX()][this->barcos[i]->getPosY()] = 'L';
+                    else
+                        this->mapa[this->barcos[i]->getPosX()][this->barcos[i]->getPosY()] = 'l';
+                }
             }
         }
     }

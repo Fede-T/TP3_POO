@@ -437,3 +437,8 @@ void MainWindow::on_btnRandom_clicked()
     }
 }
 
+
+void MainWindow::on_btnDisparar_clicked()
+{
+}
+
