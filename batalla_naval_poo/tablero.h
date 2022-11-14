@@ -33,6 +33,14 @@ public:
     ~tablero();
     int getBarcosHundidos() const;
     void setBarcosHundidos(int newBarcosHundidos);
+    const vector<barco *> &getBarcos() const;
+    void setBarcos(const vector<barco *> &newBarcos);
+    char **getMapa() const;
+    int getFilas() const;
+    int getColumnas() const;
+    void setColumnas(int newColumnas);
+    void setMapa(char **newMapa);
+    void setFilas(int newFilas);
 };
 
 #endif // TABLERO_H

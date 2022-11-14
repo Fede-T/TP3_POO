@@ -13,6 +13,46 @@ void tablero::setBarcosHundidos(int newBarcosHundidos)
     barcosHundidos = newBarcosHundidos;
 }
 
+const vector<barco *> &tablero::getBarcos() const
+{
+    return barcos;
+}
+
+void tablero::setBarcos(const vector<barco *> &newBarcos)
+{
+    barcos = newBarcos;
+}
+
+char **tablero::getMapa() const
+{
+    return mapa;
+}
+
+int tablero::getFilas() const
+{
+    return filas;
+}
+
+int tablero::getColumnas() const
+{
+    return columnas;
+}
+
+void tablero::setColumnas(int newColumnas)
+{
+    columnas = newColumnas;
+}
+
+void tablero::setMapa(char **newMapa)
+{
+    mapa = newMapa;
+}
+
+void tablero::setFilas(int newFilas)
+{
+    filas = newFilas;
+}
+
 tablero::tablero()
 {
 

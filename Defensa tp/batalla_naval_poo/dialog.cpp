@@ -80,6 +80,8 @@ void Dialog::on_buttonBox_accepted()
         configuraciones.cants = 1;
     }
 
+    configuraciones.jug = 1;
+
     MainWindow* mw = dynamic_cast<MainWindow*>(this->parent());
     mw->inicializarJuego(configuraciones);
 

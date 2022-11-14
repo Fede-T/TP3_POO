@@ -20,7 +20,7 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     void cargar();
-    void guardar(){};
+    void guardar();
     void taparMapas();
     void inicializarJuego(config configuraciones);
     void setGuia(int jugador, char mapa /*R o O*/);
@@ -41,6 +41,7 @@ private slots:
     void on_btnDisparar_clicked();
 
 private:
+    config settings;
     int indexTipo = 0;
     int jug = 1;
     int cantBarcosColocados = 0;

@@ -4,15 +4,15 @@
 #include <QString>
 #include <qDebug>
 #include <QTimer>
+#include <fstream>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    //this->showMaximized();
+    this->showMaximized();
     this->inicializarMessageBox();
-    config settings;
     this->seleccionCarga.exec();
     int respuesta = this->seleccionCarga.buttonRole(this->seleccionCarga.clickedButton());
     if(respuesta == QMessageBox::NoRole){
@@ -31,8 +31,73 @@ MainWindow::~MainWindow()
 
 void MainWindow::cargar()
 {
-    qDebug() << "carga de configs";
-    config sin_datos = {true , -1, -1, -1, -1, -1, -1};
+    ifstream file("saveBatallaNaval.dat", ios::binary);
+    if(file.fail()){
+        config sin_datos = {true , -1, -1, -1, -1, -1, -1, -1};
+        this->inicializarJuego(sin_datos);
+    }
+
+    config recordS;
+    file.read((char*)&recordS, sizeof(recordS));
+    this->inicializarJuego(recordS);
+
+    jugadorBase recordj;
+    file.read((char*)&recordj, sizeof(recordj));
+    this->juego.jugador1.numeroJugador = recordj.numeroJugador;
+    this->juego.jugador1.oceano.setBarcos(recordj.oceano.getBarcos());
+    this->juego.jugador1.oceano.setMapa(recordj.oceano.getMapa());
+    this->juego.jugador1.oceano.setFilas(recordj.oceano.getFilas());
+    this->juego.jugador1.oceano.setColumnas(recordj.oceano.getColumnas());
+    this->juego.jugador1.oceano.setBarcosHundidos(recordj.oceano.getBarcosHundidos());
+
+    this->juego.jugador1.radar.setBarcos(recordj.radar.getBarcos());
+    this->juego.jugador1.radar.setMapa(recordj.radar.getMapa());
+    this->juego.jugador1.radar.setFilas(recordj.radar.getFilas());
+    this->juego.jugador1.radar.setColumnas(recordj.radar.getColumnas());
+    this->juego.jugador1.radar.setBarcosHundidos(recordj.radar.getBarcosHundidos());
+
+    file.read((char*)&recordj, sizeof(recordj));
+    this->juego.jugador2 = recordj;
+
+    this->juego.jugador2.numeroJugador = recordj.numeroJugador;
+    this->juego.jugador2.oceano.setBarcos(recordj.oceano.getBarcos());
+    this->juego.jugador2.oceano.setMapa(recordj.oceano.getMapa());
+    this->juego.jugador2.oceano.setFilas(recordj.oceano.getFilas());
+    this->juego.jugador2.oceano.setColumnas(recordj.oceano.getColumnas());
+    this->juego.jugador2.oceano.setBarcosHundidos(recordj.oceano.getBarcosHundidos());
+
+    this->juego.jugador2.radar.setBarcos(recordj.radar.getBarcos());
+    this->juego.jugador2.radar.setMapa(recordj.radar.getMapa());
+    this->juego.jugador2.radar.setFilas(recordj.radar.getFilas());
+    this->juego.jugador2.radar.setColumnas(recordj.radar.getColumnas());
+    this->juego.jugador2.radar.setBarcosHundidos(recordj.radar.getBarcosHundidos());
+
+    this->ui->btnOrientacion->setEnabled(false);
+    this->ui->btnColocar->setEnabled(false);
+    this->ui->btnRandom->setEnabled(false);
+}
+
+void MainWindow::guardar()
+{
+    ofstream file("saveBatallaNaval.dat", ios::binary);
+    config recordS;
+    recordS.cantc = this->settings.cantc;
+    recordS.cantd = this->settings.cantd;
+    recordS.cantp = this->settings.cantp;
+    recordS.cants = this->settings.cants;
+    recordS.cantl = this->settings.cantl;
+    recordS.n = this->settings.n;
+    recordS.vsIA = this->settings.vsIA;
+    recordS.jug = this->jug;
+    file.write((char*)&recordS, sizeof(recordS));
+
+    jugadorBase recordj;
+
+    recordj = this->juego.jugador1;
+    file.write((char*)&recordj, sizeof(recordj));
+    recordj = this->juego.jugador2;
+    file.write((char*)&recordj, sizeof(recordj));
+
 }
 
 void MainWindow::taparMapas()
@@ -57,6 +122,16 @@ void MainWindow::inicializarJuego(config configuraciones)
     this->iniciarMapas(configuraciones.n);
     this->juego.inicializarMapa(configuraciones.n, configuraciones.n);
     this->juego.definirCantBarcos(configuraciones.cantp, configuraciones.cantd, configuraciones.cants, configuraciones.cantc, configuraciones.cantl);
+    this->settings.cantp = configuraciones.cantp;
+    this->settings.cantd = configuraciones.cantd;
+    this->settings.cants = configuraciones.cants;
+    this->settings.cantc = configuraciones.cantc;
+    this->settings.cantl = configuraciones.cantl;
+    this->settings.n = configuraciones.n;
+    this->settings.vsIA = configuraciones.vsIA;
+    this->settings.jug = configuraciones.jug;
+    this->jug = configuraciones.jug;
+
     this->juego.setVsIA(configuraciones.vsIA);
 
     this->ui->turno->setText(QString::number(this->jug));
@@ -621,9 +696,9 @@ void MainWindow::on_btnTerminarTurno_clicked()
                 this->taparMapas();
                 this->cambioTurno.exec();
                 this->ui->turno->setText(QString::number(this->jug));
-                this->ui->btnColocar->setEnabled(true);
-                this->ui->btnOrientacion->setEnabled(true);
-                this->ui->btnRandom->setEnabled(true);
+                this->ui->btnColocar->setEnabled(false);
+                this->ui->btnOrientacion->setEnabled(false);
+                this->ui->btnRandom->setEnabled(false);
                 this->ui->btnTerminarTurno->setEnabled(false);
                 this->setGuia(this->jug, 'R');
                 this->setGuia(this->jug, 'O');
@@ -632,6 +707,36 @@ void MainWindow::on_btnTerminarTurno_clicked()
                 this->ui->btnDisparar->setEnabled(true);
                 this->ui->instruccionesLabel->setText("¡Soldado! Ingrese una coordenada para disparar");
             }
+        }else if(this->jug == 2){
+            this->cambiarJugador();
+            this->taparMapas();
+            this->cambioTurno.exec();
+            this->ui->turno->setText(QString::number(this->jug));
+            this->ui->btnColocar->setEnabled(false);
+            this->ui->btnOrientacion->setEnabled(false);
+            this->ui->btnRandom->setEnabled(false);
+            this->ui->btnTerminarTurno->setEnabled(false);
+            this->ui->btnDisparar->setEnabled(true);
+            this->setGuia(this->jug, 'R');
+            this->setGuia(this->jug, 'O');
+            this->actualizarSprites('R');
+            this->actualizarSprites('O');
+            this->ui->instruccionesLabel->setText("¡Soldado! Ingrese una coordenada para disparar");
+        }else if(this->jug == 1){
+            this->cambiarJugador();
+            this->taparMapas();
+            this->cambioTurno.exec();
+            this->ui->turno->setText(QString::number(this->jug));
+            this->ui->btnColocar->setEnabled(false);
+            this->ui->btnOrientacion->setEnabled(false);
+            this->ui->btnRandom->setEnabled(false);
+            this->ui->btnTerminarTurno->setEnabled(false);
+            this->ui->btnDisparar->setEnabled(true);
+            this->setGuia(this->jug, 'R');
+            this->setGuia(this->jug, 'O');
+            this->actualizarSprites('R');
+            this->actualizarSprites('O');
+            this->ui->instruccionesLabel->setText("¡Soldado! Ingrese una coordenada para disparar");
         }
     }
 }
@@ -717,6 +822,75 @@ void MainWindow::on_btnDisparar_clicked()
 
             this->guardar();
             this->cambiarJugador();
+            this->ui->btnDisparar->setEnabled(false);
+            this->ui->btnTerminarTurno->setEnabled(true);
+        }
+    }else{
+        if(this->jug == 1){
+            auxqstring = this->ui->coordX->text();
+            posx = auxqstring.toInt();
+
+            auxqstring = this->ui->coordY->text();
+            posy = auxqstring.toInt();
+
+            resp = this->juego.realizarDisparo(posx, posy, this->jug);
+
+            if(resp){
+                this->ui->instruccionesLabel->setText("Bien hecho soldado! Golpeaste a un objetivo. \nPresione \"terminar turno\" ¡Es una orden!");
+            }else{
+                this->ui->instruccionesLabel->setText("Coordenadas incorrectas\nVa a tener que afinar esa punteria soldado.\nPresione \"terminar turno\" ¡Es una orden!");
+            }
+
+            this->setGuia(this->jug, 'R');
+            this->actualizarSprites('R');
+
+
+            if(this->juego.verificarGanador()){
+                if(this->juego.getGanador() == 1)
+                    this->Ganador.setText("El ganador es el jugador: 1");
+                else
+                    this->Ganador.setText("El ganador es el jugador: 2");
+
+                this->Ganador.exec();
+                QTimer::singleShot(250, qApp, SLOT(quit()));
+            }
+            this->juego.moverLanchas(this->jug);
+
+            this->guardar();
+            this->ui->btnDisparar->setEnabled(false);
+            this->ui->btnTerminarTurno->setEnabled(true);
+        }
+        if(this->jug == 2){
+            auxqstring = this->ui->coordX->text();
+            posx = auxqstring.toInt();
+
+            auxqstring = this->ui->coordY->text();
+            posy = auxqstring.toInt();
+
+            resp = this->juego.realizarDisparo(posx, posy, this->jug);
+
+            if(resp){
+                this->ui->instruccionesLabel->setText("Bien hecho soldado! Golpeaste a un objetivo. \nPresione \"terminar turno\" ¡Es una orden!");
+            }else{
+                this->ui->instruccionesLabel->setText("Coordenadas incorrectas\nVa a tener que afinar esa punteria soldado.\nPresione \"terminar turno\" ¡Es una orden!");
+            }
+
+            this->setGuia(this->jug, 'R');
+            this->actualizarSprites('R');
+
+
+            if(this->juego.verificarGanador()){
+                if(this->juego.getGanador() == 1)
+                    this->Ganador.setText("El ganador es el jugador: 1");
+                else
+                    this->Ganador.setText("El ganador es el jugador: 2");
+
+                this->Ganador.exec();
+                QTimer::singleShot(250, qApp, SLOT(quit()));
+            }
+            this->juego.moverLanchas(this->jug);
+
+            this->guardar();
             this->ui->btnDisparar->setEnabled(false);
             this->ui->btnTerminarTurno->setEnabled(true);
         }

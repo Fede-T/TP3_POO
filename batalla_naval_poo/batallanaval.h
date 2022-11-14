@@ -16,6 +16,7 @@ struct config{
     int cantc;
     int cants;
     int cantl;
+    int jug;
 };
 
 class batallaNaval
@@ -24,12 +25,13 @@ private:
     int filas;
     int columnas;
     bool vsIA;
-    jugadorBase jugador1;
-    jugadorBase jugador2;
+
 
     int ganador = 0;
 
 public:
+    jugadorBase jugador1;
+    jugadorBase jugador2;
     int cantBarcos[5]={0,0,0,0,0};
     int cantBarcos2[5]={0,0,0,0,0};
     int cantBarcosTotal = 0;
