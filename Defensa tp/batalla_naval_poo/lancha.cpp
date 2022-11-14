@@ -48,16 +48,16 @@ void lancha::moverse(char mov)
 {
     switch (mov) {
     case 'U':
-        this->setPosY(this->getPosY()-1);
-        break;
-    case 'D':
-        this->setPosY(this->getPosY()+1);
-        break;
-    case 'L':
         this->setPosX(this->getPosX()-1);
         break;
-    case 'R':
+    case 'D':
         this->setPosX(this->getPosX()+1);
+        break;
+    case 'L':
+        this->setPosY(this->getPosY()-1);
+        break;
+    case 'R':
+        this->setPosY(this->getPosY()+1);
         break;
     }
 }

@@ -10,6 +10,8 @@ public:
     portaaviones(int x, int y, char orientacion, int tamanio);
     bool registrarHit(int x, int y);
     void actualizarEstado();
+    int getTipo() {return 0;}
+    void moverse(char mov){};
     ~portaaviones();
 };
 

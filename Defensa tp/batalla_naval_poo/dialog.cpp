@@ -18,7 +18,7 @@ void Dialog::on_buttonBox_accepted()
 {
     config configuraciones;
     bool resp = this->ui->modo2jugadores->isChecked();
-    if(!resp){
+    if(resp){
         configuraciones.vsIA = false;
         qDebug()<<"se juega vs ia";
     }else{
@@ -36,22 +36,40 @@ void Dialog::on_buttonBox_accepted()
     }else if(this->ui->personalizado->isChecked()){
         QString a;
         a = this->ui->dimensiones->text();
+        if(this->ui->dimensiones->text().isEmpty())
+            configuraciones.n = 10;
+        else
         configuraciones.n = a.toInt();
 
         a = this->ui->portaaviones->text();
+        if(this->ui->portaaviones->text().isEmpty())
+            configuraciones.cantp = 0;
+        else
         configuraciones.cantp = a.toInt();
 
         a = this->ui->destructores->text();
+        if(this->ui->destructores->text().isEmpty())
+            configuraciones.cantd = 0;
+        else
         configuraciones.cantd = a.toInt();
 
         a = this->ui->cruceros->text();
+        if(this->ui->cruceros->text().isEmpty())
+            configuraciones.cantc = 0;
+        else
         configuraciones.cantc = a.toInt();
 
 
         a = this->ui->submarinos->text();
+        if(this->ui->submarinos->text().isEmpty())
+            configuraciones.cants = 0;
+        else
         configuraciones.cants = a.toInt();
 
         a = this->ui->lanchas->text();
+        if(this->ui->lanchas->text().isEmpty())
+            configuraciones.cantl = 0;
+        else
         configuraciones.cantl = a.toInt();
     }else{
         configuraciones.n = 10;

@@ -37,7 +37,7 @@
      <number>9</number>
     </property>
     <item>
-     <layout class="QHBoxLayout" name="parte_superior" stretch="5,1,4,1,5">
+     <layout class="QHBoxLayout" name="parte_superior" stretch="5,1,0,0,1,5">
       <item>
        <widget class="QLabel" name="label">
         <property name="font">
@@ -72,7 +72,7 @@
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="turno_de">
+       <widget class="QLabel" name="texto_turno">
         <property name="font">
          <font>
           <family>Arial</family>
@@ -81,10 +81,24 @@
          </font>
         </property>
         <property name="text">
-         <string>Turno de jugador: 1</string>
+         <string>Turno de jugador:</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="turno">
+        <property name="font">
+         <font>
+          <family>Arial</family>
+          <pointsize>15</pointsize>
+          <bold>true</bold>
+         </font>
+        </property>
+        <property name="text">
+         <string>0</string>
         </property>
        </widget>
       </item>
@@ -208,7 +222,7 @@
      </layout>
     </item>
     <item>
-     <layout class="QHBoxLayout" name="parte_inferior" stretch="1,1,1,1,1,1,1">
+     <layout class="QHBoxLayout" name="parte_inferior" stretch="5,1,1,1,1,0,1,1">
       <property name="sizeConstraint">
        <enum>QLayout::SetNoConstraint</enum>
       </property>
@@ -220,6 +234,12 @@
       </property>
       <item>
        <widget class="QLabel" name="instruccionesLabel">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="font">
          <font>
           <family>Consolas</family>
@@ -227,7 +247,7 @@
          </font>
         </property>
         <property name="text">
-         <string>Clickee en el radar para realizar un disparo</string>
+         <string>Instrucciones</string>
         </property>
         <property name="alignment">
          <set>Qt::AlignCenter</set>
@@ -237,14 +257,14 @@
       <item>
        <widget class="QLineEdit" name="coordX">
         <property name="placeholderText">
-         <string>Coordenada X</string>
+         <string>Coord X</string>
         </property>
        </widget>
       </item>
       <item>
        <widget class="QLineEdit" name="coordY">
         <property name="placeholderText">
-         <string>Coordenada Y</string>
+         <string>Coord Y</string>
         </property>
        </widget>
       </item>
@@ -252,6 +272,12 @@
        <widget class="QComboBox" name="btnOrientacion">
         <property name="enabled">
          <bool>true</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <item>
          <property name="text">
@@ -267,8 +293,31 @@
       </item>
       <item>
        <widget class="QPushButton" name="btnColocar">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
         <property name="text">
          <string>Colocar</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QPushButton" name="btnRandom">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Fixed" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="styleSheet">
+         <string notr="true">image: url(:/sprites/random_icon.png);
+</string>
+        </property>
+        <property name="text">
+         <string/>
         </property>
        </widget>
       </item>
@@ -276,6 +325,12 @@
        <widget class="QPushButton" name="btnDisparar">
         <property name="enabled">
          <bool>false</bool>
+        </property>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
         <property name="styleSheet">
          <string notr="true"/>
@@ -287,8 +342,11 @@
       </item>
       <item>
        <widget class="QPushButton" name="btnTerminarTurno">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
-         <sizepolicy hsizetype="Ignored" vsizetype="Expanding">
+         <sizepolicy hsizetype="Expanding" vsizetype="Expanding">
           <horstretch>0</horstretch>
           <verstretch>0</verstretch>
          </sizepolicy>

@@ -19,6 +19,8 @@ public:
     barco(int x, int y, char orientacion, int tam);
     virtual bool registrarHit(int x, int y) = 0;
     virtual void actualizarEstado() = 0;
+    virtual int getTipo() = 0;
+    virtual void moverse(char mov) = 0;
     ~barco();
     int getPosX() const;
     void setPosX(int newPosX);

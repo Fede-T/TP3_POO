@@ -1,5 +1,6 @@
 #include "tablero.h"
 #include <iostream>
+#include <ctime>
 using namespace std;
 
 int tablero::getBarcosHundidos() const
@@ -194,6 +195,167 @@ bool tablero::recibirDisparo(int x, int y)
     }
     actualizarOceano(this->mapa, x, y);
     return false;
+}
+
+int tablero::contarBarcosHundidos()
+{
+    this->barcosHundidos = 0;
+    for(int i = 0; i < this->barcos.size(); i++){
+        if(this->barcos[i]->getHundido()){
+            this->barcosHundidos++;
+        }
+    }
+    return this->barcosHundidos;
+}
+
+bool verificarMovLancha(char** map, char dir, int x, int y, int n){
+    switch(dir){
+    case 'U':
+        if(verificarBorde(x-1, y, n, n)){
+            if((map[x-1][y] != '-')&&(map[x-1][y] != 'A')){
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+        if(verificarBorde(x-2, y, n, n)){
+            if((map[x-2][y] != '-')&&(map[x-2][y] != 'A')){
+                return false;
+            }
+        }
+
+        if(verificarBorde(x-1, y+1, n, n)){
+            if((map[x-1][y+1] != '-')&&(map[x-1][y+1] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x-1, y-1, n, n)){
+            if((map[x-1][y-1] != '-')&&(map[x-1][y-1] != 'A')){
+                return false;
+            }
+        }
+        break;
+
+    case 'D':
+        if(verificarBorde(x+1, y, n, n)){
+            if((map[x+1][y] != '-')&&(map[x+1][y] != 'A')){
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+        if(verificarBorde(x+2, y, n, n)){
+            if((map[x+2][y] != '-')&&(map[x+2][y] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x+1, y+1, n, n)){
+            if((map[x+1][y+1] != '-')&&(map[x+1][y+1] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x+1, y-1, n, n)){
+            if((map[x+1][y-1] != '-')&&(map[x+1][y-1] != 'A')){
+                return false;
+            }
+        }
+        break;
+
+    case 'R':
+        if(verificarBorde(x, y+1, n, n)){
+            if((map[x][y+1] != '-')&&(map[x][y+1] != 'A')){
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+        if(verificarBorde(x, y+2, n, n)){
+            if((map[x][y+2] != '-')&&(map[x][y+2] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x-1, y+1, n, n)){
+            if((map[x-1][y+1] != '-')&&(map[x-1][y+1] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x+1, y+1, n, n)){
+            if((map[x+1][y+1] != '-')&&(map[x+1][y+1] != 'A')){
+                return false;
+            }
+        }
+        break;
+
+    case 'L':
+        if(verificarBorde(x, y-1, n, n)){
+            if((map[x][y-1] != '-')&&(map[x][y-1] != 'A')){
+                return false;
+            }
+        }else{
+            return false;
+        }
+
+        if(verificarBorde(x, y-2, n, n)){
+            if((map[x][y-2] != '-')&&(map[x][y-2] != 'A')){
+                return false;
+            }
+        }
+
+        if(verificarBorde(x-1, y-1, n, n)){
+            if((map[x-1][y-1] != '-')&&(map[x-1][y-1] != 'A')){
+                return false;
+            }
+        }
+        if(verificarBorde(x+1, y-1, n, n)){
+            if((map[x+1][y-1] != '-')&&(map[x+1][y-1] != 'A')){
+                return false;
+            }
+        }
+        break;
+    }
+
+    return true;
+}
+
+void tablero::moverLanchas()
+{
+    srand(time(NULL));
+    vector <char>dir;
+    int j;
+    char direccion = ' ';
+    for(int i = 0; i < this->barcos.size(); i++){
+        if(this->barcos[i]->getTipo() == 4){
+            if(this->barcos[i]->getHundido() == false){
+                dir.push_back('U');
+                dir.push_back('D');
+                dir.push_back('R');
+                dir.push_back('L');
+                for(int k = 0; k < 4; k++){
+                    j = rand()% dir.size();
+                    if(verificarMovLancha(this->mapa, dir[j], this->barcos[i]->getPosX(), this->barcos[i]->getPosY(), this->filas)){
+                        direccion = dir[j];
+                        dir.clear();
+                        break;
+                    }else{
+                        dir.erase(dir.begin()+j);
+                        direccion = ' ';
+                    }
+                }
+                if(direccion != ' '){
+                    this->mapa[this->barcos[i]->getPosX()][this->barcos[i]->getPosY()] = '-';
+                    this->barcos[i]->moverse(direccion);
+
+                    if(this->barcos[i]->getOrientacion() == 'H')
+                        this->mapa[this->barcos[i]->getPosX()][this->barcos[i]->getPosY()] = 'L';
+                    else
+                        this->mapa[this->barcos[i]->getPosX()][this->barcos[i]->getPosY()] = 'l';
+                }
+            }
+        }
+    }
 }
 
 void tablero::escTablero()

@@ -19,7 +19,9 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    config cargarConfiguraciones();
+    void cargar();
+    void guardar(){};
+    void taparMapas();
     void inicializarJuego(config configuraciones);
     void setGuia(int jugador, char mapa /*R o O*/);
     void actualizarSprites(char mapa);
@@ -32,6 +34,12 @@ public:
 private slots:
     void on_btnColocar_clicked();
 
+    void on_btnTerminarTurno_clicked();
+
+    void on_btnRandom_clicked();
+
+    void on_btnDisparar_clicked();
+
 private:
     int indexTipo = 0;
     int jug = 1;
@@ -43,6 +51,8 @@ private:
     QMessageBox Ganador;
     QMessageBox ErrorColocacion;
 
+    bool modoColocacion = true;
+
     vector <char> charSprites;
     vector <QString> nombreSprites;
 
@@ -51,6 +61,15 @@ private:
 
     QPushButton*** mapaRadar;
     QPushButton*** mapaOceano;
+
+    void cambiarJugador(){
+        if(this->jug == 1){
+            this->jug = 2;
+        }else{
+            this->jug = 1;
+        }
+    }
+
     Ui::MainWindow *ui;
 
 };
