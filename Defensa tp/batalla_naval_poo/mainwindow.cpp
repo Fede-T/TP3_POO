@@ -645,6 +645,15 @@ void MainWindow::on_btnTerminarTurno_clicked()
             this->guardar();
         }
         else{
+            if(this->juego.verificarGanador()){
+                if(this->juego.getGanador() == 1)
+                    this->Ganador.setText("El ganador es el jugador: 1");
+                else
+                    this->Ganador.setText("El ganador es el jugador: 2");
+
+                this->Ganador.exec();
+                QTimer::singleShot(250, qApp, SLOT(quit()));
+            }
             this->ui->btnDisparar->setEnabled(true);
             this->ui->btnTerminarTurno->setEnabled(false);
         }
