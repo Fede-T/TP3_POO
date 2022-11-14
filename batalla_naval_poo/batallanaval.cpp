@@ -13,6 +13,11 @@ void batallaNaval::setVsIA(bool newVsIA)
     vsIA = newVsIA;
 }
 
+int batallaNaval::getGanador() const
+{
+    return ganador;
+}
+
 void batallaNaval::inicializarMapa(int filas, int columnas)
 {
     this->filas = filas;
@@ -54,6 +59,13 @@ void batallaNaval::definirCantBarcos(int port, int dest, int subm, int cruc, int
     this->cantBarcos[2] = subm; this->cantBarcosTotal += subm;
     this->cantBarcos[3] = cruc; this->cantBarcosTotal += cruc;
     this->cantBarcos[4] = lanc; this->cantBarcosTotal += lanc;
+
+
+    this->cantBarcos2[0] = port;
+    this->cantBarcos2[1] = dest;
+    this->cantBarcos2[2] = subm;
+    this->cantBarcos2[3] = cruc;
+    this->cantBarcos2[4] = lanc;
 }
 
 bool batallaNaval::verificarPosicion(int tipo, int x, int y, char orie, int jugador)
@@ -85,7 +97,7 @@ bool batallaNaval::colocarAleatorioporTipo(int tipo, int cant, int jugador)
         a = false;
         while(a == false){
             xr = rand()% this->filas;
-            yr = rand()% this->columnas;
+            yr = rand()% this->filas;
             if((rand()% 2) == 0)
                 orand = 'H';
             else
@@ -160,10 +172,10 @@ bool batallaNaval::realizarDisparo(int x, int y, int jugador)
 
 bool batallaNaval::verificarGanador()
 {
-    if(this->jugador1.oceano.getBarcosHundidos() >= this->cantBarcosTotal){
+    if(this->jugador1.oceano.contarBarcosHundidos() >= this->cantBarcosTotal){
         this->ganador = 2;
         return true;
-    }else if(this->jugador2.oceano.getBarcosHundidos() >= this->cantBarcosTotal){
+    }else if(this->jugador2.oceano.contarBarcosHundidos() >= this->cantBarcosTotal){
         this->ganador = 1;
         return true;
     }

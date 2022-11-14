@@ -16,8 +16,7 @@ MainWindow::MainWindow(QWidget *parent)
     this->seleccionCarga.exec();
     int respuesta = this->seleccionCarga.buttonRole(this->seleccionCarga.clickedButton());
     if(respuesta == QMessageBox::NoRole){
-        settings = this->cargarConfiguraciones();
-        this->inicializarJuego(settings);
+        this->cargar();
     }else if(respuesta == QMessageBox::YesRole){
         Dialog* dialogo = new Dialog(this);
         dialogo->show();
@@ -30,11 +29,10 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-config MainWindow::cargarConfiguraciones()
+void MainWindow::cargar()
 {
     qDebug() << "carga de configs";
     config sin_datos = {true , -1, -1, -1, -1, -1, -1};
-    return sin_datos;
 }
 
 void MainWindow::taparMapas()
@@ -346,8 +344,8 @@ void MainWindow::on_btnColocar_clicked()
         do{
             if(this->juego.cantBarcos[this->indexTipo] > 0){
                 a = false;
-                if(this->juego.verificarPosicion(this->indexTipo, posx-1, posy-1, orientacion, this->jug)){
-                    this->juego.colocarBarco(this->indexTipo, posx-1, posy-1, orientacion, this->jug);
+                if(this->juego.verificarPosicion(this->indexTipo, posx, posy, orientacion, this->jug)){
+                    this->juego.colocarBarco(this->indexTipo, posx, posy, orientacion, this->jug);
                     this->juego.cantBarcos[this->indexTipo]--;
                     this->ui->coordX->clear();
                     this->ui->coordY->clear();
@@ -403,14 +401,53 @@ void MainWindow::on_btnColocar_clicked()
 void MainWindow::on_btnTerminarTurno_clicked()
 {
     if(this->juego.getVsIA()){
-        if(this->modoColocacion){
+        if(this->modoColocacion == true){
             this->ui->btnTerminarTurno->setEnabled(false);
             this->modoColocacion = false;
+
+            this->cantBarcosColocados = 0;
+            for(int i = 0; i < 5; i++){
+                this->juego.colocarAleatorioporTipo(i, this->juego.cantBarcos2[i], 2);
+            }
             this->ui->btnDisparar->setEnabled(true);
             this->ui->instruccionesLabel->setText("¡Soldado! Ingrese una coordenada para disparar");
         }
-        else{
+        else if(this->jug == 2){
+            srand(time(NULL));
+            bool resp;
+            int xr, yr;
 
+            xr = rand()% this->juego.getN();
+            yr = rand()% this->juego.getN();
+
+            resp = this->juego.realizarDisparo(xr, yr, this->jug);
+            if(resp){
+                this->ui->instruccionesLabel->setText("El enemigo nos golpeó en las coordenadas: " + QString::number(xr) + ", " + QString::number(yr));
+            }else{
+                this->ui->instruccionesLabel->setText("El enemigo disparó en las coordenadas: " + QString::number(xr) + ", " + QString::number(yr) + " pero falló.");
+            }
+            this->cambiarJugador();
+            this->setGuia(this->jug, 'O');
+            this->actualizarSprites('O');
+
+
+            if(this->juego.verificarGanador()){
+                if(this->juego.getGanador() == 1)
+                    this->Ganador.setText("El ganador es el jugador: 1");
+                else
+                    this->Ganador.setText("El ganador es el jugador: 2");
+
+                this->Ganador.exec();
+                QTimer::singleShot(250, qApp, SLOT(quit()));
+            }
+
+            this->juego.moverLanchas(this->jug);
+
+            this->guardar();
+        }
+        else{
+            this->ui->btnDisparar->setEnabled(true);
+            this->ui->btnTerminarTurno->setEnabled(false);
         }
     }else{
         this->taparMapas();
@@ -437,8 +474,46 @@ void MainWindow::on_btnRandom_clicked()
     }
 }
 
-
 void MainWindow::on_btnDisparar_clicked()
 {
-}
+    int posx, posy;
+    bool resp;
+    QString auxqstring;
+    if(this->juego.getVsIA()){
+        if(this->jug == 1){
+            auxqstring = this->ui->coordX->text();
+            posx = auxqstring.toInt();
 
+            auxqstring = this->ui->coordY->text();
+            posy = auxqstring.toInt();
+
+            resp = this->juego.realizarDisparo(posx, posy, this->jug);
+
+            if(resp){
+                this->ui->instruccionesLabel->setText("Bien hecho soldado! Golpeaste a un objetivo. \nPresione \"terminar turno\" ¡Es una orden!");
+            }else{
+                this->ui->instruccionesLabel->setText("Coordenadas incorrectas\nVa a tener que afinar esa punteria soldado.\nPresione \"terminar turno\" ¡Es una orden!");
+            }
+
+            this->setGuia(this->jug, 'R');
+            this->actualizarSprites('R');
+
+
+            if(this->juego.verificarGanador()){
+                if(this->juego.getGanador() == 1)
+                    this->Ganador.setText("El ganador es el jugador: 1");
+                else
+                    this->Ganador.setText("El ganador es el jugador: 2");
+
+                this->Ganador.exec();
+                QTimer::singleShot(250, qApp, SLOT(quit()));
+            }
+            this->juego.moverLanchas(2);
+
+            this->guardar();
+            this->cambiarJugador();
+            this->ui->btnDisparar->setEnabled(false);
+            this->ui->btnTerminarTurno->setEnabled(true);
+        }
+    }
+}

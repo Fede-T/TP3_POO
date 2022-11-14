@@ -197,6 +197,17 @@ bool tablero::recibirDisparo(int x, int y)
     return false;
 }
 
+int tablero::contarBarcosHundidos()
+{
+    this->barcosHundidos = 0;
+    for(int i = 0; i < this->barcos.size(); i++){
+        if(this->barcos[i]->getHundido()){
+            this->barcosHundidos++;
+        }
+    }
+    return this->barcosHundidos;
+}
+
 bool verificarMovLancha(char** map, char dir, int x, int y, int n){
     switch(dir){
     case 'U':

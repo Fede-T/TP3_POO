@@ -19,7 +19,8 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    config cargarConfiguraciones();
+    void cargar();
+    void guardar(){};
     void taparMapas();
     void inicializarJuego(config configuraciones);
     void setGuia(int jugador, char mapa /*R o O*/);

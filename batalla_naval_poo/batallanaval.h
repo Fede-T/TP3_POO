@@ -31,6 +31,7 @@ private:
 
 public:
     int cantBarcos[5]={0,0,0,0,0};
+    int cantBarcos2[5]={0,0,0,0,0};
     int cantBarcosTotal = 0;
 
 public:
@@ -51,6 +52,7 @@ public:
     void setCantBarcosTotal(int newCantBarcosTotal);
     bool getVsIA() const;
     void setVsIA(bool newVsIA);
+    int getGanador() const;
 };
 
 #endif // BATALLANAVAL_H
