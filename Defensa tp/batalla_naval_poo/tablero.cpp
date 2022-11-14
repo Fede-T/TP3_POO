@@ -211,6 +211,7 @@ void actualizarOceano(char** map, int x, int y){
     char a;
     switch(map[x][y]){
     case '-': a = 'A'; break;
+    case 'A': a = 'A'; break;
     case 'B': a = 'X'; break;
     case 'b': a = 'x'; break;
     case 'C': a = 'c'; break;
@@ -219,8 +220,11 @@ void actualizarOceano(char** map, int x, int y){
     case 'D': a = 'd'; break;
     case 'L': a = 'G'; break;
     case 'l': a = 'g'; break;
+    default:
+        a = '.';
     }
-    map[x][y] = a;
+    if(a != '.')
+        map[x][y] = a;
 }
 
 bool tablero::recibirDisparo(int x, int y)
